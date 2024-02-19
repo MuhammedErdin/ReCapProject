@@ -2,6 +2,7 @@
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,30 +31,34 @@ namespace Business.Concrete
                 Console.WriteLine("Araç adı 2 karakter olmalı ve aracın günlük fiyatı 0'dan büyük olmalıdır");
             }
         }
+        public List<Car> GetAll()
+        {
+            return _carDal.GetAll();
+        }
 
         public void Delete(Car car)
         {
             _carDal.Delete(car);
         }
 
-        public List<Car> GetAll()
+        public Car GetCarsByBrandId(int brandId)
         {
-            return _carDal.GetAll();
+            return _carDal.Get(c =>  c.BrandId == brandId);
         }
 
-        public List<Car> GetCarsByBrandId(int brandId)
+        public Car GetCarsByColorId(int colorId)
         {
-            return _carDal.GetAll(c =>  c.BrandId == brandId);
-        }
-
-        public List<Car> GetCarsByColorId(int colorId)
-        {
-            return _carDal.GetAll(c => c.ColorId == colorId);
+            return _carDal.Get(c => c.ColorId == colorId);
         }
 
         public void Update(Car car)
         {
             _carDal.Update(car);
+        }
+
+        public List<CarDetailDto> GetCarDetails()
+        {
+            return _carDal.GetCarDetails();
         }
     }
 }

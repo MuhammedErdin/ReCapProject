@@ -9,23 +9,29 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            CarTest();
+            //CarTest();
 
             //ColorTest();
 
             //BrandTest();
-        }
 
-        private static void BrandTest()
-        {
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            CarManager carManager = new CarManager(new EfCarDal());
 
-            foreach (var brand in brandManager.GetAll())
+            var result =carManager.GetAll();
+
+
+            if (result.Success)
             {
-                Console.WriteLine(brand.BrandName);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.CarName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
             }
         }
-
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
@@ -35,9 +41,28 @@ namespace ConsoleUI
             //Car car1 = new Car() { Id = 6, CarName = "Pagani", BrandId = 7, ColorId = 4, ModelYear = 2021, DailyPrice = 140, Descriptions = "Pagani Zonda 2021 White" };
             //carManager.Add(car1);
 
-            foreach (var car in carManager.GetCarDetails())
+            var result = carManager.GetCarDetails();
+
+            if (result.Success)
             {
-                Console.WriteLine(car.CarName + " / " + car.DailyPrice + " / " + car.Descriptions);
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.CarName + " / " + car.DailyPrice + " / " + car.Descriptions);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+        private static void BrandTest()
+        {
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+
+            foreach (var brand in brandManager.GetAll())
+            {
+                Console.WriteLine(brand.BrandName);
             }
         }
 

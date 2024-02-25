@@ -15,7 +15,7 @@ namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
-        ICarDal _carDal;
+        private readonly ICarDal _carDal;
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
@@ -30,7 +30,7 @@ namespace Business.Concrete
             }
             else
             {
-                return new ErrorResult(Messages.CarNotDefined);
+                return new ErrorResult(Messages.CarNameInvalid);
             }
         }
         public IDataResult<List<Car>> GetAll()
@@ -68,6 +68,11 @@ namespace Business.Concrete
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+        }
+
+        public IDataResult<Car> GetById(int carId)
+        {
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
         }
     }
 }

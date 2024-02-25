@@ -15,7 +15,7 @@ namespace Business.Concrete
 {
     public class BrandManager : IBrandService
     {
-        IBrandDal _brandDal;
+        private readonly IBrandDal _brandDal;
         public BrandManager(IBrandDal brandDal)
         {
             _brandDal = brandDal;
@@ -36,6 +36,11 @@ namespace Business.Concrete
         public IDataResult<List<Brand>> GetAll()
         {
             return new SuccessDataResult<List<Brand>>(_brandDal.GetAll());
+        }
+
+        public IDataResult<Brand> GetById(int Id)
+        {
+            return new SuccessDataResult<Brand>(_brandDal.Get(b=> b.Id == Id));
         }
 
         public IResult Update(Brand brand)

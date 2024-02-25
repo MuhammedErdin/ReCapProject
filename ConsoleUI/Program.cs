@@ -15,9 +15,30 @@ namespace ConsoleUI
 
             //BrandTest();
 
+            //ResultTest();
+
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+
+            var result = customerManager.GetAll();
+
+            if (result.Success)
+            {
+                foreach (var customer in result.Data)
+                {
+                    Console.WriteLine(customer.CompanyName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+        private static void ResultTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
 
-            var result =carManager.GetAll();
+            var result = carManager.GetAll();
 
 
             if (result.Success)
@@ -32,6 +53,7 @@ namespace ConsoleUI
                 Console.WriteLine(result.Message);
             }
         }
+
         private static void CarTest()
         {
             CarManager carManager = new CarManager(new EfCarDal());
@@ -60,20 +82,18 @@ namespace ConsoleUI
         {
             BrandManager brandManager = new BrandManager(new EfBrandDal());
 
-            foreach (var brand in brandManager.GetAll())
-            {
-                Console.WriteLine(brand.BrandName);
-            }
+            var result = brandManager.GetAll();
+
+            Console.WriteLine(result.Message);
         }
 
         private static void ColorTest()
         {
             ColorManager colorManager = new ColorManager(new EfColorDal());
 
-            foreach (var color in colorManager.GetAll())
-            {
-                Console.WriteLine(color.ColorName);
-            }
+            var result = colorManager.GetAll();
+
+            Console.WriteLine(result.Message);
         }
     }
 }

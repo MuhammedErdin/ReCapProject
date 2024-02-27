@@ -9,23 +9,79 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
+            //CarGetAll();
             //CarTest();
-
             //ColorTest();
-
             //BrandTest();
-
             //ResultTest();
+            //RentalTest();
+            //CarDeliverTest();
 
-            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            UserManager userManager = new UserManager(new EfUserDal());
 
-            var result = customerManager.GetAll();
+            var result = userManager.GetAll();
 
             if (result.Success)
             {
-                foreach (var customer in result.Data)
+                Console.WriteLine(result.Message);
+
+                foreach (var user in result.Data)
                 {
-                    Console.WriteLine(customer.CompanyName);
+                    Console.WriteLine(user.FirstName + " / " + user.LastName + " / " + user.Email);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+
+        }
+
+        private static void CarDeliverTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var result = rentalManager.CarDeliver(1);
+
+            if (result.Success)
+            {
+                Console.WriteLine(result.Message);
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+        private static void RentalTest()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+
+            var result = rentalManager.GetRentalDetails();
+
+            if (result.Success)
+            {
+                foreach (var rental in result.Data)
+                {
+                    Console.WriteLine(rental.RentalId + " / " + rental.FirstName + " / " + rental.LastName + " / " + rental.CompanyName);
+                }
+            }
+            else
+            {
+                Console.WriteLine(result.Message);
+            }
+        }
+
+        private static void CarGetAll()
+        {
+            CarManager carManager = new CarManager(new EfCarDal());
+            var result = carManager.GetAll();
+
+            if (result.Success)
+            {
+                foreach (var car in result.Data)
+                {
+                    Console.WriteLine(car.CarName + " / " + car.Descriptions);
                 }
             }
             else

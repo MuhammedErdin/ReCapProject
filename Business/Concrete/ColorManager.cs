@@ -7,6 +7,7 @@ using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,8 +23,15 @@ namespace Business.Concrete
 
         public IResult Add(Color color)
         {
-            _colorDal.Add(color);
-            return new SuccessResult(Messages.ColorAdded);
+            if (color.ColorName.Length >= 3)
+            {
+                _colorDal.Add(color);
+                return new SuccessResult(Messages.ColorAdded);
+            }
+            else
+            {
+                return new ErrorResult(Messages.ColorNameInvalid);
+            }
         }
 
         public IResult Delete(Color color)

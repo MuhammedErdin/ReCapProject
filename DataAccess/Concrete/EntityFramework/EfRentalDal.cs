@@ -5,6 +5,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,11 +23,11 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<RentalDetailDto> GetRentalDetails()
+        public List<RentalDetailDto> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
             using (DataBaseCarContext context = new DataBaseCarContext())
             {
-                var result = from r in context.Rentals
+                var result = from r in filter == null ? context.Rentals : context.Rentals.Where(filter)
                              join cu in context.Customers
                              on r.CustomerId equals cu.Id
                              join u in context.Users

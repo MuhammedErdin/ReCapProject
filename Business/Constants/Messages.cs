@@ -30,11 +30,13 @@ namespace Business.Constants
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserDeleted = "Kullanıcı başarıyla silindi";
         public static string UserUpdated = "Kullanıcı başarıyla güncellendi";
+        public static string UserNameInvalid = "Müşteri tanımlanamadı";
 
         public static string CustomersListed = "Müşteriler listelendi";
         public static string CustomerAdded = "Müşteri eklendi";
         public static string CustomerDeleted = "Müşteri başarıyla silindi";
         public static string CustomerUpdated = "Müşteri başarıyla güncellendi";
+        public static string CustomerNameInvalid = "Müşteri tanımlanamadı";
 
         public static string RentalsListed = "Kiralama işlemleri listelendi";
         public static string RentalAdded = "Kiralama işlemi eklendi";
@@ -45,5 +47,6 @@ namespace Business.Constants
         public static string MaintenanceTime = "Sistem bakımda";
         public static string CarDeliver = "Araç teslim edildi";
         public static string CarDeliverEmpty = "Araç teslim edilemedi";
+        public static string Invalid = "Geçersiz İşlem!";
     }
 }

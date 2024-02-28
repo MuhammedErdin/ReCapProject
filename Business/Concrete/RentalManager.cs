@@ -8,6 +8,7 @@ using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -60,27 +61,58 @@ namespace Business.Concrete
 
         public IDataResult<List<Rental>> GetAll()
         {
-            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(), Messages.RentalsListed);
+
+            var rentals = _rentalDal.GetAll();
+
+            if (rentals.Any())
+            {
+                return new SuccessDataResult<List<Rental>>(rentals, Messages.RentalsListed);
+            }
+            else
+            {
+                return new ErrorDataResult<List<Rental>>(Messages.RentalInvalid);
+            }
         }
 
-        public IDataResult<Rental> GetByCarId(int carId)
+        public IDataResult<List<Rental>> GetRentalsByCarId(int carId)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CarId == carId));
+            var result = _rentalDal.Get(r => r.CarId == carId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Rental>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Rental>>(_rentalDal.Get(r => r.CarId == carId));
         }
 
-        public IDataResult<Rental> GetByCustomerId(int customerId)
+        public IDataResult<List<Rental>> GetRentalsByCustomerId(int customerId)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CustomerId == customerId));
+            var result = _rentalDal.Get(r => r.CustomerId == customerId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Rental>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Rental>>(_rentalDal.Get(r => r.CustomerId == customerId));
         }
 
-        public IDataResult<Rental> GetById(int rentalId)
+        public IDataResult<List<Rental>> GetById(int rentalId)
         {
-            return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.CarId == rentalId));
+            var result = _rentalDal.Get(r => r.RentalId == rentalId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Rental>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Rental>>(_rentalDal.Get(r => r.RentalId == rentalId));
         }
 
-        public IDataResult<List<RentalDetailDto>> GetRentalDetails()
+        public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
-            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails());
+            return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter));
         }
 
         public IResult Update(Rental rental)

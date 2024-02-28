@@ -58,7 +58,7 @@ CREATE TABLE Rentals (
 
 INSERT INTO Rentals (RentalId, CarId, CustomerId, RentDate, ReturnDate) VALUES
 (1, 1, 1, '2024-02-27 12:30:45', NULL),
-(2, 1, 2, '2024-02-27 12:30:45', NULL);
+(2, 3, 2, '2024-02-27 12:30:45', NULL);
 
 
 CREATE TABLE Users (

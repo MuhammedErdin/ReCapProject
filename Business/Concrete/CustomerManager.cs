@@ -24,8 +24,15 @@ namespace Business.Concrete
 
         public IResult Add(Customer customer)
         {
-            _customerDal.Add(customer);
-            return new SuccessResult(Messages.CustomerAdded);
+            if (customer.CompanyName.Length > 2)
+            {
+                _customerDal.Add(customer);
+                return new SuccessResult(Messages.CustomerAdded);
+            }
+            else
+            {
+                return new ErrorResult(Messages.CustomerNameInvalid);
+            }
         }
 
         public IResult Delete(Customer customer)
@@ -36,12 +43,26 @@ namespace Business.Concrete
 
         public IDataResult<List<Customer>> GetAll()
         {
-            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll(), Messages.CustomersListed);
+            var result = _customerDal.GetAll();
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Customer>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
-        public IDataResult<Customer> GetByUserId(int Id)
+        public IDataResult<List<Customer>> GetByUserId(int Id)
         {
-            return new SuccessDataResult<Customer>(_customerDal.Get(cu => cu.Id == Id));
+            var result = _customerDal.Get(c => c.Id == Id);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Customer>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Customer>>(_customerDal.Get(cu => cu.Id == Id));
         }
 
         public IResult Update(Customer customer)

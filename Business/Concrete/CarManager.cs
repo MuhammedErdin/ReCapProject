@@ -7,7 +7,9 @@ using Entities.Concrete;
 using Entities.DTOs;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -28,10 +30,8 @@ namespace Business.Concrete
                 _carDal.Add(car);
                 return new SuccessResult(Messages.CarAdded);
             }
-            else
-            {
+            
                 return new ErrorResult(Messages.CarNameInvalid);
-            }
         }
         public IDataResult<List<Car>> GetAll()
         {
@@ -49,14 +49,28 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarDeleted);
         }
 
-        public IDataResult<Car> GetCarsByBrandId(int brandId)
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c =>  c.BrandId == brandId));
+            var result = _carDal.Get(c => c.BrandId == brandId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Car>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Car>>(_carDal.Get(c => c.BrandId == brandId));
         }
 
-        public IDataResult<Car> GetCarsByColorId(int colorId)
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.ColorId == colorId));
+            var result = _carDal.Get(c=>c.ColorId== colorId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Car>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Car>>(_carDal.Get(c => c.ColorId == colorId));
         }
 
         public IResult Update(Car car)
@@ -65,14 +79,21 @@ namespace Business.Concrete
             return new SuccessResult(Messages.CarUpdated);
         }
 
-        public IDataResult<List<CarDetailDto>> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
 
-        public IDataResult<Car> GetById(int carId)
+        public IDataResult<List<Car>> GetById(int carId)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.CarId == carId));
+            var result = _carDal.Get(c => c.CarId == carId);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Car>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Car>>(_carDal.Get(c => c.CarId == carId));
         }
     }
 }

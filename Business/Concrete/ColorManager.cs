@@ -37,23 +37,35 @@ namespace Business.Concrete
         public IResult Delete(Color color)
         {
             _colorDal.Delete(color);
-            return new SuccessResult();
+            return new SuccessResult(Messages.ColorDeleted);
         }
 
         public IDataResult<List<Color>> GetAll()
         {
+            if (DateTime.Now.Hour == 18)
+            {
+                return new ErrorDataResult<List<Color>>(Messages.MaintenanceTime);
+            }
+
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public IDataResult<Color> GetById(int Id)
+        public IDataResult<List<Color>> GetById(int Id)
         {
-            return new SuccessDataResult<Color>(_colorDal.Get(cl => cl.Id == Id));
+            var result = _colorDal.Get(b => b.Id == Id);
+
+            if (result == null || !result.Any())
+            {
+                return new ErrorDataResult<List<Color>>(Messages.Invalid);
+            }
+
+            return new SuccessDataResult<List<Color>>(_colorDal.Get(cl => cl.Id == Id));
         }
 
         public IResult Update(Color color)
         {
             _colorDal.Update(color);
-            return new SuccessResult();
+            return new SuccessResult(Messages.ColorUpdated);
         }
     }
 }

@@ -66,11 +66,20 @@ namespace Business.Concrete
 
             if (rentals.Any())
             {
-                return new SuccessDataResult<List<Rental>>(rentals, Messages.RentalsListed);
+                var availableRentals = rentals.Where(r => r.ReturnDate == null).ToList();
+
+                if (availableRentals.Any())
+                {
+                    return new SuccessDataResult<List<Rental>>(availableRentals, Messages.RentalsListed);
+                }
+                else
+                {
+                    return new ErrorDataResult<List<Rental>>(Messages.NoAvailableRentals);
+                }
             }
             else
             {
-                return new ErrorDataResult<List<Rental>>(Messages.RentalInvalid);
+                return new ErrorDataResult<List<Rental>>(Messages.NoRentalsFound);
             }
         }
 

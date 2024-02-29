@@ -13,7 +13,7 @@ namespace Business.Abstract
     public interface IRentalService
     {
         IDataResult<List<Rental>> GetAll();
-        IDataResult<List<Rental>> GetById(int rentalId);
+        IDataResult<Rental> GetById(int rentalId);
         IDataResult<List<Rental>> GetRentalsByCarId(int carId);
         IDataResult<List<Rental>> GetRentalsByCustomerId(int customerId);
         IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null);

@@ -50,16 +50,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Color>>(_colorDal.GetAll());
         }
 
-        public IDataResult<List<Color>> GetById(int Id)
+        public IDataResult<Color> GetById(int Id)
         {
-            var result = _colorDal.Get(b => b.Id == Id);
+            var result = _colorDal.GetAll(b => b.Id == Id);
 
             if (result == null || !result.Any())
             {
-                return new ErrorDataResult<List<Color>>(Messages.Invalid);
+                return new ErrorDataResult<Color>(Messages.Invalid);
             }
 
-            return new SuccessDataResult<List<Color>>(_colorDal.Get(cl => cl.Id == Id));
+            return new SuccessDataResult<Color>(_colorDal.Get(cl => cl.Id == Id));
         }
 
         public IResult Update(Color color)

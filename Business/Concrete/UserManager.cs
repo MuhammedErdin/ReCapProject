@@ -40,7 +40,7 @@ namespace Business.Concrete
 
         public IDataResult<List<User>> GetAll()
         {
-            var result = _userDal.Get();
+            var result = _userDal.GetAll();
 
             if (result == null || !result.Any())
             {
@@ -50,16 +50,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<User>>(_userDal.GetAll(), Messages.UsersListed);
         }
 
-        public IDataResult<List<User>> GetById(int Id)
+        public IDataResult<User> GetById(int Id)
         {
-            var result = _userDal.Get(u => u.Id == Id);
+            var result = _userDal.GetAll(u => u.Id == Id);
 
             if (result == null || !result.Any())
             {
-                return new ErrorDataResult<List<User>>(Messages.Invalid);
+                return new ErrorDataResult<User>(Messages.Invalid);
             }
 
-            return new SuccessDataResult<List<User>>(_userDal.Get(u => u.Id == Id));
+            return new SuccessDataResult<User>(_userDal.Get(u => u.Id == Id));
         }
 
         public IResult Update(User user)

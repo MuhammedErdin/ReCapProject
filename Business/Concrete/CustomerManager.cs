@@ -53,16 +53,16 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
-        public IDataResult<List<Customer>> GetByUserId(int Id)
+        public IDataResult<Customer> GetByUserId(int Id)
         {
-            var result = _customerDal.Get(c => c.Id == Id);
+            var result = _customerDal.GetAll(c => c.Id == Id);
 
             if (result == null || !result.Any())
             {
-                return new ErrorDataResult<List<Customer>>(Messages.Invalid);
+                return new ErrorDataResult<Customer>(Messages.Invalid);
             }
 
-            return new SuccessDataResult<List<Customer>>(_customerDal.Get(cu => cu.Id == Id));
+            return new SuccessDataResult<Customer>(_customerDal.Get(cu => cu.Id == Id));
         }
 
         public IResult Update(Customer customer)

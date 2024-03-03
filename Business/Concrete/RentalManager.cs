@@ -27,6 +27,7 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(RentalValidator))]
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Add(Rental rental)
         {
             _rentalDal.Add(rental);
@@ -45,12 +46,14 @@ namespace Business.Concrete
             return new ErrorResult(Messages.CarDeliverEmpty);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Delete(Rental rental)
         {
             _rentalDal.Delete(rental);
             return new SuccessResult(Messages.RentalDeleted);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Rental>> GetAll()
         {
 
@@ -75,6 +78,7 @@ namespace Business.Concrete
             }
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Rental>> GetRentalsByCarId(int carId)
         {
             var result = _rentalDal.GetAll(r => r.CarId == carId);
@@ -87,6 +91,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.CarId == carId));
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Rental>> GetRentalsByCustomerId(int customerId)
         {
             var result = _rentalDal.GetAll(r => r.CustomerId == customerId);
@@ -99,6 +104,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll(r => r.CustomerId == customerId));
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<Rental> GetById(int rentalId)
         {
             var result = _rentalDal.GetAll(r => r.RentalId == rentalId);
@@ -111,12 +117,14 @@ namespace Business.Concrete
             return new SuccessDataResult<Rental>(_rentalDal.Get(r => r.RentalId == rentalId));
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<RentalDetailDto>> GetRentalDetails(Expression<Func<Rental, bool>> filter = null)
         {
             return new SuccessDataResult<List<RentalDetailDto>>(_rentalDal.GetRentalDetails(filter));
         }
 
         [ValidationAspect(typeof(RentalValidator))]
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Update(Rental rental)
         {
             _rentalDal.Update(rental);

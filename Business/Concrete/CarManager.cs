@@ -26,12 +26,14 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Add(Car car)
         {
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
@@ -42,12 +44,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Delete(Car car)
         {
             _carDal.Delete(car);
             return new SuccessResult(Messages.CarDeleted);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
             var result = _carDal.GetAll(c => c.BrandId == brandId);
@@ -60,6 +64,7 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
             var result = _carDal.GetAll(c => c.ColorId == colorId);
@@ -73,17 +78,20 @@ namespace Business.Concrete
         }
 
         [ValidationAspect(typeof(CarValidator))]
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<List<CarDetailDto>> GetCarDetails(Expression<Func<Car, bool>> filter = null)
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails(filter));
         }
 
+        [MaintenanceAspect(DayOfWeek.Sunday)]
         public IDataResult<Car> GetById(int carId)
         {
             var result = _carDal.GetAll(c => c.CarId == carId);

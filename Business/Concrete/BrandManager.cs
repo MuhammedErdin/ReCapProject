@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -22,14 +24,11 @@ namespace Business.Concrete
         }
 
         public IResult Add(Brand brand)
-        {         
-            if (brand.BrandName.Length > 2)
-            {
-                _brandDal.Add(brand);
-                return new SuccessResult(Messages.BrandAdded);
-            }
-            
-                return new ErrorResult(Messages.BrandNameInvalid);
+        {
+            ValidationTool.Validate(new BrandValidator(), brand);
+
+            _brandDal.Add(brand);
+            return new SuccessResult(Messages.BrandAdded);
         }
 
         public IResult Delete(Brand brand)
@@ -51,17 +50,19 @@ namespace Business.Concrete
         public IDataResult<Brand> GetById(int Id)
         {
             var result = _brandDal.GetAll(b => b.Id == Id);
-            
+
             if (result == null || !result.Any())
             {
                 return new ErrorDataResult<Brand>(Messages.Invalid);
             }
 
-            return new SuccessDataResult<Brand>(_brandDal.Get(b=> b.Id == Id));
+            return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == Id));
         }
 
         public IResult Update(Brand brand)
         {
+            ValidationTool.Validate(new BrandValidator(), brand);
+
             _brandDal.Update(brand);
             return new SuccessResult(Messages.BrandUpdated);
         }

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
@@ -25,15 +27,10 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            var isRentACar = _rentalDal.GetAll(r=>r.RentalId==rental.RentalId).Any();
+            ValidationTool.Validate(new RentalValidator(), rental);
 
-            if (isRentACar == false)
-            {
-                _rentalDal.Add(rental);
-                return new SuccessResult(Messages.RentalAdded);
-            }
-
-                return new ErrorResult(Messages.RentalInvalid);
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
 
         public IResult CarDeliver(int rentalId)
@@ -45,7 +42,7 @@ namespace Business.Concrete
                 return new SuccessResult(Messages.CarDeliver);
             }
 
-                return new ErrorResult(Messages.CarDeliverEmpty);
+            return new ErrorResult(Messages.CarDeliverEmpty);
         }
 
         public IResult Delete(Rental rental)
@@ -121,6 +118,8 @@ namespace Business.Concrete
 
         public IResult Update(Rental rental)
         {
+            ValidationTool.Validate(new RentalValidator(), rental);
+
             _rentalDal.Update(rental);
             return new SuccessResult(Messages.RentalUpdated);
         }

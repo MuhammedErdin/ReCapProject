@@ -1,17 +1,22 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
@@ -25,17 +30,14 @@ namespace Business.Concrete
 
         public IResult Add(Car car)
         {
-            if (car.CarName.Length > 2 && car.DailyPrice > 0)
-            {
-                _carDal.Add(car);
-                return new SuccessResult(Messages.CarAdded);
-            }
-            
-                return new ErrorResult(Messages.CarNameInvalid);
+            ValidationTool.Validate(new CarValidator(), car);
+
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);
         }
         public IDataResult<List<Car>> GetAll()
         {
-            if (DateTime.Now.DayOfWeek == DayOfWeek.Sunday)
+            if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
             {
                 return new ErrorDataResult<List<Car>>(Messages.MaintenanceTime);
             }
@@ -63,7 +65,7 @@ namespace Business.Concrete
 
         public IDataResult<List<Car>> GetCarsByColorId(int colorId)
         {
-            var result = _carDal.GetAll(c=>c.ColorId== colorId);
+            var result = _carDal.GetAll(c => c.ColorId == colorId);
 
             if (result == null || !result.Any())
             {
@@ -75,6 +77,8 @@ namespace Business.Concrete
 
         public IResult Update(Car car)
         {
+            ValidationTool.Validate(new CarValidator(), car);
+
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }

@@ -12,25 +12,30 @@ namespace Business.Constants
         public static string CarAdded = "Araç eklendi";
         public static string CarDeleted = "Araç başarıyla silindi";
         public static string CarUpdated = "Araç başarıyla güncellendi";
-        public static string CarNameInvalid = "Araç tanımlanamadı";
+        public static string CarNameMustContainOnlyLetter = "Araç adı sadece karakterlerden oluşmalı";
 
         public static string ColorsListed = "Renkler listelendi";
         public static string ColorAdded = "Renk eklendi";
         public static string ColorDeleted = "Renk başarıyla silindi";
         public static string ColorUpdated = "Renk başarıyla güncellendi";
         public static string ColorNameInvalid = "Renk tanımlanamadı";
+        public static string ColorNameMustContainOnlyLetter = "Renk adı sadece karakterlerden oluşmalı";
 
         public static string BrandsListed = "Markalar listelendi";
         public static string BrandAdded = "Marka eklendi";
         public static string BrandDeleted = "Marka başarıyla silindi";
         public static string BrandUpdated = "Marka başarıyla güncellendi";
         public static string BrandNameInvalid = "Marka tanımlanamadı";
+        public static string BrandNameMustContainOnlyLetter = "Marka adı sadece karakterlerden oluşmalı";
 
         public static string UsersListed = "Kullanıcılar listelendi";
         public static string UserAdded = "Kullanıcı eklendi";
         public static string UserDeleted = "Kullanıcı başarıyla silindi";
         public static string UserUpdated = "Kullanıcı başarıyla güncellendi";
         public static string UserNameInvalid = "Müşteri tanımlanamadı";
+        public static string FirstNameMustContainOnlyLetter = "Kullanıcı adı sadece karakterlerden oluşmalı";
+        public static string LastNameMustContainOnlyLetter = "Kullanıcı soyadı sadece karakterlerden oluşmalı";
+
 
         public static string CustomersListed = "Müşteriler listelendi";
         public static string CustomerAdded = "Müşteri eklendi";

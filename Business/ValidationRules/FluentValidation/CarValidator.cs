@@ -18,16 +18,16 @@ namespace Business.ValidationRules.FluentValidation
             RuleFor(c => c.CarName).MinimumLength(3).Must(IsLetter).WithMessage(Messages.CarNameMustContainOnlyLetter);
             RuleFor(c => c.DailyPrice).NotEmpty();
             RuleFor(c => c.DailyPrice).GreaterThan(0).WithMessage("Günlük tutar 0'dan küçük olamaz");
-            RuleFor(c => c.ModelYear).GreaterThanOrEqualTo(1980).WithMessage("1980'den küçük yıl girilemez").LessThanOrEqualTo(DateTime.Now.Day).WithMessage("2024'den büyük yıl girilemez");
+            RuleFor(c => c.ModelYear).GreaterThanOrEqualTo(1980).WithMessage("1980'den küçük yıl girilemez").LessThanOrEqualTo(DateTime.Now.Year).WithMessage("2024'den büyük yıl girilemez");
             RuleFor(c => c.ColorId).NotEmpty();
             RuleFor(c => c.BrandId).NotEmpty();
             RuleFor(c => c.Descriptions).NotEmpty();
         }
 
-        //Sadece harf içerip içermediğini kontrol eder
+        //Sadece harf içerip içermediğini kontrol eder (boşluklu yazım yapılabilir)
         private bool IsLetter(string arg)
         {
-            Regex regex = new Regex(@"^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$");
+            Regex regex = new Regex(@"^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$");
             return regex.IsMatch(arg);
         }
     }

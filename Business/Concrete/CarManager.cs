@@ -1,22 +1,19 @@
 ﻿using Business.Abstract;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
-using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
-using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using Entities.DTOs;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using ValidationException = FluentValidation.ValidationException;
 
 namespace Business.Concrete
 {
@@ -28,13 +25,13 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            ValidationTool.Validate(new CarValidator(), car);
-
             _carDal.Add(car);
             return new SuccessResult(Messages.CarAdded);
         }
+
         public IDataResult<List<Car>> GetAll()
         {
             if (DateTime.Now.DayOfWeek == DayOfWeek.Wednesday)
@@ -75,10 +72,9 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Update(Car car)
         {
-            ValidationTool.Validate(new CarValidator(), car);
-
             _carDal.Update(car);
             return new SuccessResult(Messages.CarUpdated);
         }

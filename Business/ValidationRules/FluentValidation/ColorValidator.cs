@@ -20,10 +20,10 @@ namespace Business.ValidationRules.FluentValidation
 
         }
 
-        //Sadece harf içerip içermediğini kontrol eder
+        //Sadece harf içerip içermediğini kontrol eder (boşluklu yazım yapılabilir)
         private bool IsLetter(string arg)
         {
-            Regex regex = new Regex(@"^[a-zA-ZğüşıöçĞÜŞİÖÇ]+$");
+            Regex regex = new Regex(@"^[a-zA-ZğüşıöçĞÜŞİÖÇ\s]+$");
             return regex.IsMatch(arg);
         }
     }

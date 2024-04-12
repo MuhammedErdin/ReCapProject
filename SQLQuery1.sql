@@ -57,10 +57,10 @@ CREATE TABLE Rentals (
 );
 
 INSERT INTO Rentals (RentalId, CarId, CustomerId, RentDate, ReturnDate) VALUES
-(1, 1, 1, '2024-02-27'),
-(2, 3, 2, '2024-02-27', NULL),
-(3, 5, 2, '2024-02-27', NULL),
-(4, 4, 1, '2024-02-15');
+(1, 1, 1, '2024-02-27', NULL),
+(2, 3, 2, '2024-02-27', '2024-03-17'),
+(3, 5, 2, '2024-02-17', '2024-02-24'),
+(4, 4, 1, '2024-02-15', NULL);
 
 CREATE TABLE Users (
     Id INT PRIMARY KEY,
@@ -74,6 +74,11 @@ INSERT INTO Users (Id, FirstName, LastName, Email, PasswordHash) VALUES
 (1, 'Muhammed', 'Erdin', 'BLABLA@gmail.com', '12345'),
 (2, 'Engin', 'Demiroğ', 'blabla@gmail.com', '12345');
 
-drop table Users;
-drop table Customers;
-drop table Rentals;
+CREATE TABLE CarImages (
+    Id INT PRIMARY KEY,
+    CarId INT,
+    ImagePath VARCHAR(255),
+    ImageDate DATETIME
+);
+
+DROP TABLE CarImages;

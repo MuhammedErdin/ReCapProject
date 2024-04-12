@@ -33,6 +33,9 @@ builder.Services.AddSwaggerGen();
 //builder.Services.AddSingleton<IUserService, UserManager>();
 //builder.Services.AddSingleton<IUserDal, EfUserDal>();
 
+builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,6 +45,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
